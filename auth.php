@@ -7,6 +7,10 @@ $env_vars = parse_ini_file('.env');
 $string = md5(mt_rand());
 $state = base64_encode($string);
 
+// store state in session for validation in callback.php
+session_start();
+$_SESSION['state'] = $state;
+
 $query_parameters = [
 	'client_id' => $env_vars['CLIENT_ID'],
 	'response_type' => 'code',
