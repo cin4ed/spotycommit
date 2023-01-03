@@ -1,5 +1,5 @@
 <?php
-function redirect_to_auth() {
+function oauth__redirect_to_auth() {
 	$env_vars = parse_ini_file('.env');
 
 	$string = md5(mt_rand());
@@ -27,7 +27,7 @@ function redirect_to_auth() {
 	exit();
 }
 
-function handle_redirect() {
+function oauth__handle_redirect() {
 	$state = $_GET['state'];
 
 	session_start();
@@ -48,7 +48,7 @@ function handle_redirect() {
 	}
 }
 
-function get_tokens() {
+function oauth__get_tokens() {
 	$env_vars = parse_ini_file('.env');
 
 	$query_parameters = [

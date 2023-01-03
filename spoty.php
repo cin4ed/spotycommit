@@ -1,4 +1,22 @@
 <?php
+function get_user($token) {
+	$url = 'https://api.spotify.com/v1/me';
+
+	$options = [
+		CURLOPT_URL => $url,
+		CURLOPT_HTTPHEADER => [
+			'Authorization: Bearer ' . $token
+		]
+	];
+
+	$ch = curl_init();
+	curl_setopt_array($ch, $options);
+
+	$ch_res = curl_exec($ch);
+
+	return json_decode($ch_res);
+}
+
 function is_user(): bool {
 	$env_vars = parse_ini_file('.env');
 
