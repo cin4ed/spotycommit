@@ -26,4 +26,25 @@ function redirect_to_auth() {
 	header('Location: ' . $authorization_url . '?' . $query_parameters_formated);
 	exit();
 }
+
+function handle_redirect() {
+	$state = $_GET['state'];
+
+	session_start();
+	$stored_state = $_SESSION['state'];
+
+	// TODO: better handle this errors and display appropiate message in frontend
+	// send error to front end too
+	if ($state != $stored_state) {
+		die('state mismatch!'); // TODO: change for response
+	}
+
+	if (isset($_GET['error'])) {
+		die("error occurred: {$_GET['error']}"); // TODO: change for response
+	}
+
+	if (!isset($_GET['code'])) {
+		die('code was not found in url');
+	}
+}
 ?>
