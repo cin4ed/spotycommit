@@ -47,4 +47,50 @@ function handle_redirect() {
 		die('code was not found in url');
 	}
 }
+
+function get_tokens() {
+	$env_vars = parse_ini_file('.env');
+
+	$query_parameters = [
+		'grant_type' => 'authorization_code',
+		'code' => $_GET['code'],
+		'redirect_uri' => $env_vars['REDIRECT_URI']
+	];
+
+	$query_parameters_formated = http_build_query($query_parameters);
+
+	// Build authorization header
+	$auth_str = $env_vars['CLIENT_ID'] . ':' . $env_vars['CLIENT_SECRET'];
+	$auth_code = base64_encode($auth_str);
+
+	// Request options
+	$options = [
+		CURLOPT_URL => 'https://accounts.spotify.com/api/token',
+		CURLOPT_POST => true,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_POSTFIELDS => $query_parameters_formated,
+		CURLOPT_HTTPHEADER => [
+			'Content-type: application/x-www-form-urlencoded',
+			'Authorization: Basic ' . $auth_code
+		]
+	];
+
+	// Execute request
+	$ch = curl_init();
+	curl_setopt_array($ch, $options);
+
+	// Get token from response
+	$ch_res = curl_exec($ch);
+	$ch_res_arr = json_decode($ch_res, true);
+
+	// Validate token
+	if (isset($ch_res_arr['error']) && $ch_res_arr['error'] == 'invalid_grant') {
+		die("invalid_grant"); // Change for response
+	}
+
+	return [
+		'access_token' => $ch_res_arr['access_token'],
+		'refresh_token' => $ch_res_arr['refresh_token']
+	];
+}
 ?>
