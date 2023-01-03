@@ -1,15 +1,5 @@
 <?php
 function is_user(): bool {
-	if (session_status() == PHP_SESSION_NONE) {
-		session_start();
-	}
-
-	$user_id = $_SESSION['spotify_user_id'] ?? NULL;
-
-	if (!$user_id) {
-		return false;
-	}
-
 	$env_vars = parse_ini_file('.env');
 
 	$server = $env_vars['SQL_SERVERNAME'];
