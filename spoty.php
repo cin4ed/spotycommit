@@ -1,9 +1,12 @@
 <?php
+function is_user(): bool {
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
 
-function is_user(): boolean {
-	$user_id = $_SESSION['spotify_user_id'];
+	$user_id = $_SESSION['spotify_user_id'] ?? NULL;
 
-	if (!isset($user_id)) {
+	if (!$user_id) {
 		return false;
 	}
 
@@ -25,7 +28,6 @@ function is_user(): boolean {
 	$stmt->execute([$user_id]);
 	$row = $stmt->fetch();
 
-	return isset($row);
+	return $row != false;
 }
-
 ?>
