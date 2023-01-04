@@ -21,7 +21,8 @@ function spoty__get_playback_history($token, $timestamp) {
 	$url = 'https://api.spotify.com/v1/me/player/recently-played';
 
 	$query_parameters = [
-		'after' => $timestamp
+		'after' => $timestamp,
+		'limit' => 10
 	];
 
 	$query_parameters_formated = http_build_query($query_parameters);
