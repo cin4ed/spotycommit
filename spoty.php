@@ -24,8 +24,11 @@ function spoty__get_playback_history($token, $timestamp) {
 		'after' => $timestamp
 	];
 
+	$query_parameters_formated = http_build_query($query_parameters);
+
 	$options = [
-		CURLOPT_URL => $url,
+		CURLOPT_URL => $url . '?' . $query_parameters_formated,
+		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_HTTPHEADER => [
 			'Authorization: Bearer ' . $token
 		]
