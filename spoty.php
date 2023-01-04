@@ -17,7 +17,7 @@ function get_user($token) {
 	return json_decode($ch_res);
 }
 
-function get_playback_history($token, $timestamp) {
+function spoty__get_playback_history($token, $timestamp) {
 	$url = 'https://api.spotify.com/v1/me/player/recently-played';
 
 	$query_parameters = [
