@@ -39,7 +39,7 @@ function spoty__get_playback_history($token, $timestamp) {
 	curl_setopt_array($ch, $options);
 
 	$ch_res = curl_exec($ch);
-	return json_decode($ch_res);
+	return json_decode($ch_res, true);
 }
 
 function is_user($user_id): bool {
