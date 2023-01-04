@@ -17,7 +17,29 @@ function get_user($token) {
 	return json_decode($ch_res);
 }
 
-function is_user(): bool {
+function get_playback_history($token, $timestamp) {
+	$url = 'https://api.spotify.com/v1/me/player/recently-played';
+
+	$query_parameters = [
+		'after' => $timestamp
+	];
+
+	$options = [
+		CURLOPT_URL => $url,
+		CURLOPT_HTTPHEADER => [
+			'Authorization: Bearer ' . $token
+		]
+	];
+
+	$ch = curl_init();
+	curl_setopt_array($ch, $options);
+
+	$ch_res = curl_exec($ch);
+
+	return json_decode($ch_res);
+}
+
+function is_user($user_id): bool {
 	$env_vars = parse_ini_file('.env');
 
 	$server = $env_vars['SQL_SERVERNAME'];

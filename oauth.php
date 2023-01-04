@@ -14,9 +14,7 @@ function oauth__redirect_to_auth() {
 		'response_type' => 'code',
 		'redirect_uri' => $env_vars['REDIRECT_URI'],
 		'state' => $state,
-		'scope' => [
-			'user-read-private user-read-email user-read-recently-played'
-		]
+		'scope' => 'user-read-private user-read-email user-read-recently-played'
 	];
 
 	$query_parameters_formated = http_build_query($query_parameters);
